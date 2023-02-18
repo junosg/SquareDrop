@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InterfaceManager : MonoBehaviour
 {
@@ -31,7 +32,12 @@ public class InterfaceManager : MonoBehaviour
     public TMP_InputField room_RoomCodeField;
     public Button room_CopyCodeButton;
     public Button room_BackButton;
+    public Button room_StartButton;
     public TMP_Text room_PlayerList;
+
+    [Header("Game")]
+    public Canvas game_Canvas;
+    public Button game_LeaveButton;
 
     public InterfaceBaseState currentState;
     public InterfaceBaseState previousState;
@@ -39,6 +45,14 @@ public class InterfaceManager : MonoBehaviour
     public InterfaceCreateRoomState createRoomState = new InterfaceCreateRoomState();
     public InterfaceJoinRoomState joinRoomState = new InterfaceJoinRoomState();
     public InterfaceRoomState roomState = new InterfaceRoomState();
+    public InterfaceGameState gameState = new InterfaceGameState();
+
+    [HideInInspector]
+    public int menuLeveLIndex = 0;
+    [HideInInspector]
+    public int gameLevelIndex = 1;
+    [HideInInspector]
+    public bool sceneLoading = false;
 
     [HideInInspector]
     public NetworkManager networkManager;
@@ -60,6 +74,9 @@ public class InterfaceManager : MonoBehaviour
         NetworkManager.joinRandomRoomFailedDelegate += OnJoinRandomRoomFailed;
         NetworkManager.playerEnteredRoomDelegate += OnPlayerEnteredRoom;
         NetworkManager.playerLeftRoomDelegate += OnPlayerLeftRoom;
+        NetworkManager.leftRoomDelegate += OnLeftRoom;
+
+        networkManager.SyncScene();
     }
 
     // Update is called once per frame
@@ -81,6 +98,12 @@ public class InterfaceManager : MonoBehaviour
         currentState.EnterState(this);
     }
 
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+#region Network Manager Handlers
     void OnConnectedToMaster()
     {
         currentState.OnConnectedToMaster(this);
@@ -125,4 +148,10 @@ public class InterfaceManager : MonoBehaviour
     {
         currentState.OnPlayerLeftRoom(this);
     }
+
+    void OnLeftRoom()
+    {
+        currentState.OnLeftRoom(this);
+    }
+#endregion
 }

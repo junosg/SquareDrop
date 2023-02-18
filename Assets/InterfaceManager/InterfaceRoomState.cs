@@ -6,10 +6,13 @@ public class InterfaceRoomState : InterfaceBaseState
 {
     public override void EnterState(InterfaceManager interfaceManager)
     {
-        interfaceManager.room_Canvas.gameObject.SetActive(true);
+        interfaceManager.room_Canvas.gameObject.SetActive(false);
         interfaceManager.room_RoomCodeField.text = null;
         interfaceManager.room_CopyCodeButton.interactable = false;
         interfaceManager.room_BackButton.interactable = false;
+        interfaceManager.room_StartButton.interactable = false;
+
+        interfaceManager.room_Canvas.worldCamera = Camera.main;
 
         if (interfaceManager.networkManager.IsConnectedAndReady()) {
             if (interfaceManager.previousState == interfaceManager.createRoomState)
@@ -27,15 +30,19 @@ public class InterfaceRoomState : InterfaceBaseState
     public override void ExitState(InterfaceManager interfaceManager)
     {
         interfaceManager.room_Canvas.gameObject.SetActive(false);
-
-        if (interfaceManager.networkManager.InRoom())
-            interfaceManager.networkManager.LeaveRoom();
     }
 
     public override void CheckSwitchState(InterfaceManager interfaceManager)
     {
         interfaceManager.room_BackButton.onClick.AddListener(() => {
             interfaceManager.SwitchState(interfaceManager.menuState);
+        });
+
+        interfaceManager.room_StartButton.onClick.AddListener(() => {
+            if (interfaceManager.sceneLoading == false) {
+                interfaceManager.sceneLoading = true;
+                interfaceManager.SwitchState(interfaceManager.gameState);
+            }
         });
     }
 
@@ -49,9 +56,14 @@ public class InterfaceRoomState : InterfaceBaseState
 
     public override void OnCreateRoomSuccess(InterfaceManager interfaceManager)
     {
+        interfaceManager.room_Canvas.gameObject.SetActive(true);
         interfaceManager.room_RoomCodeField.text = interfaceManager.networkManager.RoomName();
         interfaceManager.room_CopyCodeButton.interactable = true;
         interfaceManager.room_BackButton.interactable = true;
+
+        if (interfaceManager.networkManager.IsMasterClient()) {
+            interfaceManager.room_StartButton.interactable = true;
+        }
 
         interfaceManager.room_PlayerList.text = DisplayPlayerList(interfaceManager.networkManager.Players());
     }
@@ -63,6 +75,7 @@ public class InterfaceRoomState : InterfaceBaseState
 
     public override void OnJoinRoomSuccess(InterfaceManager interfaceManager)
     {
+        interfaceManager.room_Canvas.gameObject.SetActive(true);
         interfaceManager.room_RoomCodeField.text = interfaceManager.networkManager.RoomName();
         interfaceManager.room_CopyCodeButton.interactable = true;
         interfaceManager.room_BackButton.interactable = true;
@@ -88,6 +101,10 @@ public class InterfaceRoomState : InterfaceBaseState
     public override void OnPlayerLeftRoom(InterfaceManager interfaceManager)
     {
         interfaceManager.room_PlayerList.text = DisplayPlayerList(interfaceManager.networkManager.Players());
+    }
+
+    public override void OnLeftRoom(InterfaceManager interfaceManager)
+    {
     }
     
     private string DisplayPlayerList(Dictionary<int, string> players)
