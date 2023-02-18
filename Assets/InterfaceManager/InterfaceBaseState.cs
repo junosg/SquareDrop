@@ -18,5 +18,6 @@ public abstract class InterfaceBaseState
     public abstract void OnJoinRandomRoomFailed(InterfaceManager interfaceManager);
     public abstract void OnPlayerEnteredRoom(InterfaceManager interfaceManager);
     public abstract void OnPlayerLeftRoom(InterfaceManager interfaceManager);
+    public abstract void OnLeftRoom(InterfaceManager interfaceManager);
 
 }

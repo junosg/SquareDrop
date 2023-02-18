@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7818656687705018004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7818656687705018006}
+  - component: {fileID: 7818656687705018005}
+  m_Layer: 0
+  m_Name: InterfaceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7818656687705018006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7818656687705018004}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.1437078, y: 17.983986, z: 175.23524}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7818656687705018005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7818656687705018004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc315b1b323acaf4bb7dc632e165dd41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menu_PlayerNameField: {fileID: 0}
+  menu_Canvas: {fileID: 0}
+  menu_CreateRoomButton: {fileID: 0}
+  menu_JoinRoomButton: {fileID: 0}
+  menu_ExitButton: {fileID: 0}
+  createRoom_Canvas: {fileID: 0}
+  createRoom_RoomNameField: {fileID: 0}
+  createRoom_MaxPlayersField: {fileID: 0}
+  createRoom_CreateRoomButton: {fileID: 0}
+  createRoom_BackButton: {fileID: 0}
+  joinRoom_Canvas: {fileID: 0}
+  joinRoom_RoomNameField: {fileID: 0}
+  joinRoom_JoinRoomButton: {fileID: 0}
+  joinRoom_BackButton: {fileID: 0}
+  room_Canvas: {fileID: 0}
+  room_RoomCodeField: {fileID: 0}
+  room_CopyCodeButton: {fileID: 0}
+  room_BackButton: {fileID: 0}
+  room_StartButton: {fileID: 0}
+  room_PlayerList: {fileID: 0}
+  game_Canvas: {fileID: 0}
+  game_LeaveButton: {fileID: 0}
+  menuLeveLIndex: 0
+  gameLevelIndex: 0
+  sceneLoading: 0
+  networkManager: {fileID: 0}

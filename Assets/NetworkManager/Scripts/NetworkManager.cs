@@ -47,9 +47,31 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
+    public void LoadLevel(string levelName)
+    {
+        if (PhotonNetwork.IsMasterClient) {
+            PhotonNetwork.LoadLevel("GameScene");
+        }
+    }
+
     public bool IsConnectedAndReady()
     {
         return PhotonNetwork.IsConnectedAndReady;
+    }
+
+    public bool IsConnected()
+    {
+        return PhotonNetwork.IsConnected;
+    }
+
+    public bool IsMasterClient()
+    {
+        return PhotonNetwork.IsMasterClient;
+    }
+
+    public bool IsMine()
+    {
+        return photonView.IsMine;
     }
 
     public bool InRoom()
@@ -157,6 +179,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         playerLeftRoomDelegate();
+    }
+#endregion
+
+
+#region LeftRoom
+    public delegate void OnLeftRoomDelegate();
+    public static OnLeftRoomDelegate leftRoomDelegate;
+    public override void OnLeftRoom()
+    {
+        leftRoomDelegate();
     }
 #endregion
 }

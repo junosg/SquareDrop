@@ -7,22 +7,26 @@ public class InterfaceMenuState : InterfaceBaseState
     public override void EnterState(InterfaceManager interfaceManager)
     {
         interfaceManager.menu_Canvas.gameObject.SetActive(true);
+        interfaceManager.menu_Canvas.worldCamera = Camera.main;
 
         interfaceManager.menu_CreateRoomButton.interactable = false;
         interfaceManager.menu_JoinRoomButton.interactable = false;
 
-        if (interfaceManager.networkManager.IsConnectedAndReady() == false) {
+        if (interfaceManager.networkManager.IsConnected() == false) {
             interfaceManager.networkManager.ConnectUsingSettings();
         } else {
             interfaceManager.menu_CreateRoomButton.interactable = true;
             interfaceManager.menu_JoinRoomButton.interactable = true;
         }
+
+        if (interfaceManager.networkManager.InRoom())
+            interfaceManager.networkManager.LeaveRoom();
     }
 
     public override void UpdateState(InterfaceManager interfaceManager)
     {
         if (interfaceManager.networkManager.IsConnectedAndReady()) {
-
+            Debug.Log(interfaceManager.networkManager.IsConnectedAndReady());
             interfaceManager.networkManager.SetPlayerName(interfaceManager.menu_PlayerNameField.text);
 
             if (interfaceManager.menu_PlayerNameField.text.Length == 0) {
@@ -59,7 +63,6 @@ public class InterfaceMenuState : InterfaceBaseState
 
     public override void OnConnectedToMaster(InterfaceManager interfaceManager)
     {
-        interfaceManager.networkManager.SyncScene();
     }
 
     public override void OnDisconnected(InterfaceManager interfaceManager)
@@ -69,7 +72,6 @@ public class InterfaceMenuState : InterfaceBaseState
 
     public override void OnCreateRoomSuccess(InterfaceManager interfaceManager)
     {
-        Debug.Log(interfaceManager.networkManager.InRoom());
     }
 
     public override void OnCreateRoomFailed(InterfaceManager interfaceManager)
@@ -93,6 +95,10 @@ public class InterfaceMenuState : InterfaceBaseState
     }
 
     public override void OnPlayerLeftRoom(InterfaceManager interfaceManager)
+    {
+    }
+
+    public override void OnLeftRoom(InterfaceManager interfaceManager)
     {
     }
 }

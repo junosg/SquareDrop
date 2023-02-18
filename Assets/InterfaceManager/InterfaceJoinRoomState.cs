@@ -8,6 +8,8 @@ public class InterfaceJoinRoomState : InterfaceBaseState
     {
         interfaceManager.joinRoom_Canvas.gameObject.SetActive(true);
         interfaceManager.joinRoom_RoomNameField.text = null;
+
+        interfaceManager.joinRoom_Canvas.worldCamera = Camera.main;
     }
 
     public override void UpdateState(InterfaceManager interfaceManager)
@@ -68,6 +70,10 @@ public class InterfaceJoinRoomState : InterfaceBaseState
     }
 
     public override void OnPlayerLeftRoom(InterfaceManager interfaceManager)
+    {
+    }
+
+    public override void OnLeftRoom(InterfaceManager interfaceManager)
     {
     }
 }
