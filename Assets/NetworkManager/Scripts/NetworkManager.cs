@@ -90,7 +90,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         foreach (var item in PhotonNetwork.CurrentRoom.Players)
         {
-            Debug.Log(item.Value.NickName);
             returnValue.Add(item.Key, item.Value.NickName);
         }
 
