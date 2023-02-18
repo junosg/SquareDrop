@@ -26,7 +26,6 @@ public class InterfaceMenuState : InterfaceBaseState
     public override void UpdateState(InterfaceManager interfaceManager)
     {
         if (interfaceManager.networkManager.IsConnectedAndReady()) {
-            Debug.Log(interfaceManager.networkManager.IsConnectedAndReady());
             interfaceManager.networkManager.SetPlayerName(interfaceManager.menu_PlayerNameField.text);
 
             if (interfaceManager.menu_PlayerNameField.text.Length == 0) {
