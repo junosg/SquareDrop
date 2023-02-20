@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InterfaceMenuState : InterfaceBaseState
 {
+    private bool connectedToMaster = false;
     public override void EnterState(InterfaceManager interfaceManager)
     {
         interfaceManager.menu_Canvas.gameObject.SetActive(true);
@@ -25,7 +26,7 @@ public class InterfaceMenuState : InterfaceBaseState
 
     public override void UpdateState(InterfaceManager interfaceManager)
     {
-        if (interfaceManager.networkManager.IsConnectedAndReady()) {
+        if (connectedToMaster) {
             interfaceManager.networkManager.SetPlayerName(interfaceManager.menu_PlayerNameField.text);
 
             if (interfaceManager.menu_PlayerNameField.text.Length == 0) {
@@ -62,10 +63,12 @@ public class InterfaceMenuState : InterfaceBaseState
 
     public override void OnConnectedToMaster(InterfaceManager interfaceManager)
     {
+        connectedToMaster = true;
     }
 
     public override void OnDisconnected(InterfaceManager interfaceManager)
     {
+        connectedToMaster = false;
         interfaceManager.SwitchState(interfaceManager.menuState);
     }
 

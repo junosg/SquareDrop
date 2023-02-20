@@ -43,6 +43,7 @@ public class InterfaceJoinRoomState : InterfaceBaseState
 
     public override void OnDisconnected(InterfaceManager interfaceManager)
     {
+        interfaceManager.SwitchState(interfaceManager.menuState);
     }
 
     public override void OnCreateRoomSuccess(InterfaceManager interfaceManager)
@@ -59,6 +60,7 @@ public class InterfaceJoinRoomState : InterfaceBaseState
 
     public override void OnJoinRoomFailed(InterfaceManager interfaceManager)
     {
+        interfaceManager.SwitchState(interfaceManager.menuState);
     }
 
     public override void OnJoinRandomRoomFailed(InterfaceManager interfaceManager)

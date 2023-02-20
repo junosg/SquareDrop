@@ -6,7 +6,7 @@ public class InterfaceGameState : InterfaceBaseState
 {
     public override void EnterState(InterfaceManager interfaceManager)
     {
-        interfaceManager.networkManager.LoadLevel("GameScene");
+        interfaceManager.networkManager.LoadLevel("SnowballDrop");
     }
 
     public override void UpdateState(InterfaceManager interfaceManager)

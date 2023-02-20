@@ -52,6 +52,7 @@ public class InterfaceRoomState : InterfaceBaseState
 
     public override void OnDisconnected(InterfaceManager interfaceManager)
     {
+        interfaceManager.SwitchState(interfaceManager.menuState);
     }
 
     public override void OnCreateRoomSuccess(InterfaceManager interfaceManager)

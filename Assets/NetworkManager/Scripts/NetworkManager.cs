@@ -50,7 +50,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void LoadLevel(string levelName)
     {
         if (PhotonNetwork.IsMasterClient) {
-            PhotonNetwork.LoadLevel("GameScene");
+            PhotonNetwork.LoadLevel(levelName);
         }
     }
 

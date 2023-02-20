@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 5865b499006466c40bc6b39367c33b11
+  - enabled: 1
+    path: Assets/Scenes/SnowballDrop.unity
+    guid: bcc2849525f51a045ba2879d9d5119ae
   m_configObjects: {}

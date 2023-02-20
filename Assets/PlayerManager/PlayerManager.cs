@@ -15,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     public Rigidbody rigidBody;
     [HideInInspector]
     public CapsuleCollider capsuleCollider;
+    [HideInInspector]
+    public GameObject cameraFollowTarget;
 
     public PlayerBaseState currentState;
     public PlayerIdleState idleState = new PlayerIdleState();
@@ -51,6 +53,7 @@ public class PlayerManager : MonoBehaviour
         rigidBody.freezeRotation = true;
 
         capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
+        cameraFollowTarget = GameObject.Find("CameraFollowTarget");
 
         currentState = idleState;
         currentState.EnterState(this);
