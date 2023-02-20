@@ -82,4 +82,8 @@ public class PlayerManager : MonoBehaviour
         currentState = state;
         currentState.EnterState(this);
     }
+
+    public void IgnoreOwnedProjectiles()
+    {
+    }
 }
