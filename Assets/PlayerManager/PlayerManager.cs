@@ -47,7 +47,7 @@ public class PlayerManager : MonoBehaviour
     {
         photonView = GetComponent<PhotonView>();
 
-        if (!photonView.IsMine) return;
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) return;
 
         rigidBody = gameObject.GetComponent<Rigidbody>();
         rigidBody.freezeRotation = true;
@@ -61,14 +61,14 @@ public class PlayerManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) return;
 
         currentState.FixedUpdateState(this);
     }
     // Update is called once per frame
     void Update()
     {
-        if (!photonView.IsMine) return;
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) return;
 
         currentState.CheckSwitchState(this);
         currentState.UpdateState(this);
@@ -76,14 +76,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SwitchState(PlayerBaseState state)
     {
-        if (!photonView.IsMine) return;
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) return;
 
         currentState.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
-    }
-
-    public void IgnoreOwnedProjectiles()
-    {
     }
 }

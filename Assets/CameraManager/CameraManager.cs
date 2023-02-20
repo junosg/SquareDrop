@@ -22,9 +22,9 @@ public class CameraManager : MonoBehaviour
         _followTarget = GameObject.Find("CameraFollowTarget");
         _lookTarget = GameObject.FindGameObjectWithTag("Player");
 
-        if (_lookTarget.GetPhotonView().IsMine) {
-            _virtualCamera.LookAt = _lookTarget.transform;
-        }
+        if (PhotonNetwork.IsConnected && !_lookTarget.GetPhotonView().IsMine) return;
+
+        _virtualCamera.LookAt = _lookTarget.transform;
 
         _virtualCamera.m_Lens.FieldOfView = 35f;
 
