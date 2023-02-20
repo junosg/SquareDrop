@@ -7,17 +7,14 @@ using Photon.Realtime;
 
 public class PlayerActionManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class Projectile {
-        public string projectileName = "ProjectileName";
-        public GameObject projectilePrefab;
-        public float projectileEmitDelay = 0f;  
-        public float projectileEmitForce = 4f;
-        public float projectileLifetime = 2f;
-    }
+    [Header("Stats")]
+
+    [Range(0, 4)]
+    [SerializeField] private float energy = 1;
+    [SerializeField] private float energyRegenRatePerSecond = 1f;
 
     [Header("Projectiles")]
-    [SerializeField] private Projectile[] projectiles;
+    [SerializeField] private ProjectileEntity[] projectiles;
 
     private InputManager _inputManager;
     private InputAction look;
@@ -27,6 +24,7 @@ public class PlayerActionManager : MonoBehaviour
     private Ray _aimDirectionRay;
     private Vector3 _aimDirection;
     private RaycastHit _rayHit;
+    private ProjectileEntity _currentProjectileEntity;
 
     private PhotonView _photonView;
 
@@ -35,6 +33,7 @@ public class PlayerActionManager : MonoBehaviour
     {
         _inputManager =  new InputManager();
         _photonView = gameObject.GetPhotonView();
+        _currentProjectileEntity = projectiles[0];
     }
 
     void OnEnable()
@@ -56,11 +55,16 @@ public class PlayerActionManager : MonoBehaviour
         secondaryFire.Disable();       
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+    }
     void FixedUpdate()
     {
+        if (PhotonNetwork.IsConnected && !_photonView.IsMine) return;
+
         Aim();
         ImpulsedInstantiate();
+        EnergyRegen();
     }
 
 
@@ -80,13 +84,26 @@ public class PlayerActionManager : MonoBehaviour
         }
     }
 
+    void EnergyRegen()
+    {
+        if (energy < 4)
+            energy += energyRegenRatePerSecond * Time.deltaTime;
+    }
+
     void ImpulsedInstantiate()
     {
         if (!primaryFire.IsPressed()) return;
+        if (energy <= 0) return;
 
-        if (!_photonView.IsMine) return;
+        GameObject projectile = null;
 
-        GameObject projectile = PhotonNetwork.Instantiate(projectiles[0].projectilePrefab.name, transform.position, transform.rotation);
+        if (PhotonNetwork.IsConnected) {
+            projectile = PhotonNetwork.Instantiate(_currentProjectileEntity.projectilePrefab.name, transform.position, transform.rotation);
+        } else {
+            projectile = GameObject.Instantiate(_currentProjectileEntity.projectilePrefab, transform.position, transform.rotation);
+        }
+
+        energy -= _currentProjectileEntity.projectileCost;
 
         if (projectile.GetPhotonView().IsMine) {
             Physics.IgnoreCollision(projectile.GetComponent<Collider>(), gameObject.GetComponent<Collider>());
@@ -94,5 +111,14 @@ public class PlayerActionManager : MonoBehaviour
 
         Rigidbody projectileRigidbody = projectile.GetComponent<Rigidbody>();
         projectileRigidbody.AddForce(_aimDirection * 20, ForceMode.Impulse);
+
+        StartCoroutine(ObjectDeath(_currentProjectileEntity.projectileLifetime, projectile));
+    }
+
+    IEnumerator ObjectDeath(float delay, GameObject dyingObject)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Destroy(dyingObject);
     }
 }
